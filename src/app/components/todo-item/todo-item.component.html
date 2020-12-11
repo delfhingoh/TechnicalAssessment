@@ -1,4 +1,9 @@
+<!-- This is what EACH task item will have-->
 <div>
+    <!-- User will be allowed to change the name with this input -->
+    <!-- The changed name will only be affected once user press enter -->
     <input class="task" [value]="todo.title" (keyup.enter)="changeTaskTitle($event.target.value)"/>
+
+    <!-- EACH task will have this delete icon button -->
     <button (click)="onDelete(todo)" class="delete"><fa-icon class="fa-trash" [icon]='faTrash'></fa-icon></button>
 </div>

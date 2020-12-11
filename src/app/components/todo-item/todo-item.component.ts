@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'; // Importing the 'Trash' icon from fontawesome
 import{ Todo } from '../../models/Todo';
 
@@ -7,13 +7,15 @@ import{ Todo } from '../../models/Todo';
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.css']
 })
+
+// This is a component for ONE task
 export class TodoItemComponent implements OnInit 
 {
   @Input() todo: Todo;
-  @Input() todoArray : Todo[];
+  @Output() remove: EventEmitter<any> = new EventEmitter();
+  @Output() editTaskName : EventEmitter<any> = new EventEmitter();
 
   faTrash = faTrash;
-  todoIndex : number = 0;
 
   constructor() { }
 
@@ -22,17 +24,28 @@ export class TodoItemComponent implements OnInit
   }
 
   // onDelete method
-  // This is a function to delete task that is bind to each task item
+  // If the delete icon is clicked, then the output will be emitted to the todo-list component
   onDelete(todo : Todo) : void
   {
-    // Go through the array of the Todo Item
-    // Find the specific Todo Item that user is deleting, then use splice to remove that object and change to array
-    this.todoArray.forEach((temp, index) => { if(temp.id == todo.id) this.todoArray.splice(index, 1);  } );
+    this.remove.emit(todo);
   }
 
-  // Change the task title function that returns nothing
+  // changeTaskTitle method
+  // If user has pressed enter after changing the name, then the output will be emitted to the todo-list component
   changeTaskTitle(newTitle : string) : void
   {
+    var tempArray : Todo[] = [];
+    var oldTodo : Todo = { id: this.todo.id, title: this.todo.title };
+    var newTodo : Todo = { id: 0, title: "" };
+
+    tempArray.push(oldTodo);
+
+    // Change the title
     this.todo.title = newTitle;
+    newTodo = this.todo;
+    tempArray.push(newTodo);
+
+    // Putting an array as a parameter as it could only accept 1
+    this.editTaskName.emit(tempArray);
   }
 }
