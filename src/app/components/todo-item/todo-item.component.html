@@ -1,0 +1,4 @@
+<div>
+    <input class="task" [value]="todo.title" (keyup.enter)="changeTaskTitle($event.target.value)"/>
+    <button (click)="onDelete(todo)" class="delete"><fa-icon class="fa-trash" [icon]='faTrash'></fa-icon></button>
+</div>

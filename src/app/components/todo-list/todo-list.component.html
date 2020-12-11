@@ -1,0 +1,7 @@
+<div class="content">
+    <app-todo-item *ngFor="let todo of todoArray" [todo]="todo" [todoArray]="todoArray">
+    </app-todo-item>
+
+    <input id="input" placeholder="Task NAME" [value]="newTask" (keyup)="changeValue($event.target.value)"/>
+    <button (click)="addTask(newTask)">Add</button>
+</div>

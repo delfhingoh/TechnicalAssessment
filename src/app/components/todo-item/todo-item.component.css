@@ -1,0 +1,36 @@
+.task
+{
+    border: 0.5px solid;
+    border-color: grey;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    padding: 5px;
+
+    position: relative;
+    word-wrap: break-word;
+
+    width: 400px;
+
+    text-align: left;
+}
+
+.delete
+{
+    opacity: 0.5;
+    transition: 1.5s;
+
+    position: relative;
+    left: 3px;
+}
+
+.delete:hover
+{
+    opacity: 1;
+}
+
+.task:hover
+{
+    background-color: rgb(231, 226, 226);
+}
