@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "technicalassessment-59832": {
+      "hosting": {
+        "TechnicalAssessment": [
+          "technicalassessment-59832"
+        ]
+      }
+    }
+  }
+}

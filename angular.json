@@ -26,9 +26,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": 
-            [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -118,6 +116,10 @@
               "devServerTarget": "TechnicalAssessment:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
