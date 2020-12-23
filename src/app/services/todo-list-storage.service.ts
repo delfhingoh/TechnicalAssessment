@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { fromEventPattern } from 'rxjs';
-import { Todo } from '../models/Todo';
+import { fromEventPattern, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Todo, ITodo } from '../models/Todo';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 const storageName = "todo_list";
 const defaultList : Todo[] = 
@@ -26,14 +28,25 @@ export class TodoListStorageService
 {
   private todoList : Todo[];
 
+  private todoObservable : Observable<ITodo[]>;
+
   private index : number;
   private tempId : number;
 
-  constructor()
+  constructor(public store : AngularFirestore)
   {
     // JSON.parse = Turning JSON into object
     // Putting the data into this Todo[] array.
     this.todoList = JSON.parse(localStorage.getItem(storageName)) || defaultList;
+
+    // Putting the data from FIRESTORE of 'Todo' collection into an observable
+    this.todoObservable = this.store.collection<ITodo>('TodoCollection').valueChanges();
+  }
+
+  // Return the Observa
+  getTodoObservable()
+  {
+    return this.todoObservable;
   }
 
   // Return the TODO List

@@ -13,6 +13,11 @@ import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { TodoListServiceService } from '../app/services/todo-list-service.service';
 import { TodoListStorageService } from '../app/services/todo-list-storage.service';
 
+// Import Angular Fire to use Firestore
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +27,9 @@ import { TodoListStorageService } from '../app/services/todo-list-storage.servic
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [TodoListServiceService, TodoListStorageService],
   bootstrap: [AppComponent]

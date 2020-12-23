@@ -18,6 +18,12 @@ export class TodoListServiceService
     return this.storage.get();
   }
 
+  // Get the OBSERVABLE Data from FIRESTORE
+  getTodoObservable()
+  {
+     return this.storage.getTodoObservable();
+  }
+
   // Add into the the array list using post function from the storage service
   addTask(taskName : string)
   {

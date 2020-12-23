@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoListServiceService } from '../../services/todo-list-service.service';
-import { Todo } from '../../models/Todo';
+import { Todo, ITodo } from '../../models/Todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -15,6 +15,8 @@ export class TodoListComponent implements OnInit
   newTask : string = '';
   id : number = 0;
 
+  testTodoList : ITodo[];
+
   // Inject the todolistservice and use it 
   constructor(private todoListService : TodoListServiceService) { }
 
@@ -22,6 +24,9 @@ export class TodoListComponent implements OnInit
   {
     // Get the TODO List from TodoListServiceService
     this.todoArray = this.todoListService.getTodoList();
+
+    // Get the Observable then SUBSCRIBE in this Component to get and use the data
+    this.todoListService.getTodoObservable().subscribe(todoList => { this.testTodoList = todoList; } );
   }
 
   // Change add task input value

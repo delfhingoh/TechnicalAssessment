@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'; // Importing the 'Trash' icon from fontawesome
-import{ Todo } from '../../models/Todo';
+import{ Todo, ITodo } from '../../models/Todo';
 
 @Component({
   selector: 'app-todo-item',
@@ -11,7 +11,7 @@ import{ Todo } from '../../models/Todo';
 // This is a component for ONE task
 export class TodoItemComponent implements OnInit 
 {
-  @Input() todo: Todo;
+  @Input() todo: ITodo;
   @Output() remove: EventEmitter<any> = new EventEmitter();
   @Output() editTaskName : EventEmitter<any> = new EventEmitter();
 
@@ -21,6 +21,7 @@ export class TodoItemComponent implements OnInit
 
   ngOnInit(): void 
   {
+    console.log(this.todo.title);
   }
 
   // onDelete method
@@ -34,18 +35,18 @@ export class TodoItemComponent implements OnInit
   // If user has pressed enter after changing the name, then the output will be emitted to the todo-list component
   changeTaskTitle(newTitle : string) : void
   {
-    var tempArray : Todo[] = [];
-    var oldTodo : Todo = { id: this.todo.id, title: this.todo.title };
-    var newTodo : Todo = { id: 0, title: "" };
+    // var tempArray : Todo[] = [];
+    // var oldTodo : Todo = { id: this.todo.id, title: this.todo.title };
+    // var newTodo : Todo = { id: 0, title: "" };
 
-    tempArray.push(oldTodo);
+    // tempArray.push(oldTodo);
 
-    // Change the title
-    this.todo.title = newTitle;
-    newTodo = this.todo;
-    tempArray.push(newTodo);
+    // // Change the title
+    // this.todo.title = newTitle;
+    // newTodo = this.todo;
+    // tempArray.push(newTodo);
 
-    // Putting an array as a parameter as it could only accept 1
-    this.editTaskName.emit(tempArray);
+    // // Putting an array as a parameter as it could only accept 1
+    // this.editTaskName.emit(tempArray);
   }
 }
