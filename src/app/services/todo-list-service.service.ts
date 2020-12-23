@@ -12,16 +12,30 @@ export class TodoListServiceService
   {
   }
 
+  //// FUNCTIONS to INTERACT with FIRESTORE DATABASE ///
+  // Get the OBSERVABLE Data from FIRESTORE
+  getTodoListFromFire()
+  {
+     return this.storage.getTodoFromFire();
+  }
+
+  // Add the new TODO into the FIRESTORE DATABASE
+  addTodoToFire(thisTodo : Todo)
+  { 
+    return this.storage.postTodoToFire(thisTodo);
+  }
+
+  // Remove this TODO from the FIRESTORE DATABASE
+  removeTodoFromFire(thisTodo : Todo)
+  {
+    return this.storage.destroyTodoFromFire(thisTodo);
+  }
+
+  /// FUNCTIONS to INTERACT with LOCAL STORAGE ///
   // Get the list using get function from the storage service
   getTodoList()
   {
     return this.storage.get();
-  }
-
-  // Get the OBSERVABLE Data from FIRESTORE
-  getTodoObservable()
-  {
-     return this.storage.getTodoObservable();
   }
 
   // Add into the the array list using post function from the storage service

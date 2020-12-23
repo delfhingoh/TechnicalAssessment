@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { fromEventPattern, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Todo, ITodo } from '../models/Todo';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 const storageName = "todo_list";
 const defaultList : Todo[] = 
 [
   {
-    id : 1,
+    orderNum : 0,
+    id: "",
     title : "Task ABC"
   },
   {
-    id : 2,
+    orderNum : 1,
+    id : "",
     title : "Task CDE"
   },
   {
-    id : 3,
+    orderNum : 2,
+    id : "",
     title : "Task EFG"
   },
 ];
@@ -28,10 +31,12 @@ export class TodoListStorageService
 {
   private todoList : Todo[];
 
-  private todoObservable : Observable<ITodo[]>;
+  private todoCollection : AngularFirestoreCollection<Todo>;
+  private todoDocument : AngularFirestoreDocument<Todo>;
+  private todoObservable : Observable<Todo[]>;
 
   private index : number;
-  private tempId : number;
+  private tempOrderNum : number;
 
   constructor(public store : AngularFirestore)
   {
@@ -40,15 +45,42 @@ export class TodoListStorageService
     this.todoList = JSON.parse(localStorage.getItem(storageName)) || defaultList;
 
     // Putting the data from FIRESTORE of 'Todo' collection into an observable
-    this.todoObservable = this.store.collection<ITodo>('TodoCollection').valueChanges();
+    // Using snapshotChanges() to get the id of each document in this collection
+    this.todoCollection = this.store.collection<Todo>('TodoCollection', ref => ref.orderBy('orderNum', 'asc'));
+    this.todoObservable = this.todoCollection.snapshotChanges().pipe(map(changes => 
+      {
+        return changes.map(a => 
+          {
+            const data = a.payload.doc.data() as Todo;
+            data.id = a.payload.doc.id;
+
+            return data;
+          });
+      }));
   }
 
-  // Return the Observa
-  getTodoObservable()
+  /// FUNCTIONS to INTERACT with FIRESTORE ///
+  // Return the Observable from the FIRESTORE database
+  getTodoFromFire()
   {
     return this.todoObservable;
   }
 
+  // Add into the FIRESTORE database
+  postTodoToFire(thisTodo : Todo)
+  {
+    // Add it into the collection of 'TodoCollection' at FIRESTORE
+    this.todoCollection.add(thisTodo);
+  }
+
+  destroyTodoFromFire(thisTodo : Todo)
+  {
+    // Document Path: Collections > Documents
+    this.todoDocument = this.store.doc("TodoCollection/" + thisTodo.id);
+    this.todoDocument.delete();
+  }
+
+  /// FUNCTIONS to INTERACT with LOCAL STORAGE ///
   // Return the TODO List
   get()
   {
@@ -59,12 +91,12 @@ export class TodoListStorageService
   // Add a new TODO into the List
   post(taskName : string)
   {
-    this.tempId = this.todoList.length;
+    this.tempOrderNum = this.todoList.length;
 
     // Create a temporary TODO variable
-    var tempTodo : Todo = { id: 0, title: ""};
+    var tempTodo : Todo = { orderNum: 0, id: "", title: ""};
     // Store the added TODO item into this temp variable
-    tempTodo.id = this.tempId;
+    tempTodo.orderNum = this.tempOrderNum;
     tempTodo.title = taskName;
 
     // Push the newly created TODO item into the array

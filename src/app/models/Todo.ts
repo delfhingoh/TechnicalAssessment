@@ -2,7 +2,8 @@
 // This contains the ID and Title as there can be multiple tasks with the same title so the ID will be unique
 export class Todo
 {
-    id: number;
+    orderNum: number;
+    id: string;
     title: string;
 }
 

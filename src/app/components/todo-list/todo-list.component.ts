@@ -15,7 +15,7 @@ export class TodoListComponent implements OnInit
   newTask : string = '';
   id : number = 0;
 
-  testTodoList : ITodo[];
+  testTodoList : Todo[];
 
   // Inject the todolistservice and use it 
   constructor(private todoListService : TodoListServiceService) { }
@@ -26,7 +26,7 @@ export class TodoListComponent implements OnInit
     this.todoArray = this.todoListService.getTodoList();
 
     // Get the Observable then SUBSCRIBE in this Component to get and use the data
-    this.todoListService.getTodoObservable().subscribe(todoList => { this.testTodoList = todoList; } );
+    this.todoListService.getTodoListFromFire().subscribe(todoList => { this.testTodoList = todoList; } );
   }
 
   // Change add task input value
@@ -38,15 +38,33 @@ export class TodoListComponent implements OnInit
   // Add a task using the addTask function from the todolistservice
   addTask(newTask : string)
   {
-    this.todoArray = this.todoListService.addTask(newTask);
-    this.resetValue();
+    if(newTask != '')
+    {
+      // this.todoArray = this.todoListService.addTask(newTask);
+      
+      // Create a TEMP TODO variable
+      var tempTodo : Todo = { orderNum: 0, id: "", title: ""} ;
+      tempTodo.title = newTask;
+      tempTodo.orderNum = this.testTodoList.length;
+
+      // Pass in the TODO variable
+      this.todoArray = this.todoListService.addTodoToFire(tempTodo);
+      this.resetValue();
+    }
+    else
+    {
+      alert("Please key in some values!");
+    }
   }
 
   // This function will be triggered when the output is emitted from the todo-item component
   // Remove that task selected by user using the removeTask function from todolist service
   removeTask(todo : Todo)
   {
-    this.todoArray = this.todoListService.removeTask(todo);
+    // this.todoArray = this.todoListService.removeTask(todo);
+
+    // Delete from FIRESTORE
+    this.todoArray = this.todoListService.removeTodoFromFire(todo);
   }
 
   // This function will be triggered when the output is emitted from the todo-item component
