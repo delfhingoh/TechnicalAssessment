@@ -6,8 +6,3 @@ export class Todo
     id: string;
     title: string;
 }
-
-export interface ITodo
-{
-    title: string;
-}

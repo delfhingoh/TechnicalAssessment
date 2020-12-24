@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoListServiceService } from '../../services/todo-list-service.service';
-import { Todo, ITodo } from '../../models/Todo';
+import { Todo } from '../../models/Todo';
 
 @Component({
   selector: 'app-todo-list',
@@ -23,7 +23,7 @@ export class TodoListComponent implements OnInit
   ngOnInit(): void 
   {
     // Get the TODO List from TodoListServiceService
-    this.todoArray = this.todoListService.getTodoList();
+    // this.todoArray = this.todoListService.getTodoList();
 
     // Get the Observable then SUBSCRIBE in this Component to get and use the data
     this.todoListService.getTodoListFromFire().subscribe(todoList => { this.testTodoList = todoList; } );
@@ -69,11 +69,14 @@ export class TodoListComponent implements OnInit
 
   // This function will be triggered when the output is emitted from the todo-item component
   // Change that task name with the newly entered title by the user
-  editTaskName(tempArray : Todo[])
+  // Updated to use FIRESTORE
+  editTaskName(updatedTodo : Todo)
   {
     // tempArray[0] = oldTodo
     // tempArray[1] = newTodo
-    this.todoArray = this.todoListService.updateTaskName(tempArray[1], tempArray[0]);
+    // this.todoArray = this.todoListService.updateTaskName(tempArray[1], tempArray[0]);
+
+    this.todoArray = this.todoListService.changeTodoInFire(updatedTodo);
   }
 
   // Reset the input value function

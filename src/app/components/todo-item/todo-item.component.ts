@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'; // Importing the 'Trash' icon from fontawesome
-import{ Todo, ITodo } from '../../models/Todo';
+import{ Todo } from '../../models/Todo';
 
 @Component({
   selector: 'app-todo-item',
@@ -32,20 +32,23 @@ export class TodoItemComponent implements OnInit
 
   // changeTaskTitle method
   // If user has pressed enter after changing the name, then the output will be emitted to the todo-list component
-  changeTaskTitle(newTitle : string) : void
+  // Updated to use FIRESTORE
+  changeTaskTitle(todo : Todo, newTitle : string) : void
   {
-    var tempArray : Todo[] = [];
-    var oldTodo : Todo = { orderNum: this.todo.orderNum, id: "", title: this.todo.title };
-    var newTodo : Todo = { orderNum: 0, id: "", title: "" };
+    // var tempArray : Todo[] = [];
+    // var oldTodo : Todo = { orderNum: this.todo.orderNum, id: "", title: this.todo.title };
+    // var newTodo : Todo = { orderNum: 0, id: "", title: "" };
 
-    tempArray.push(oldTodo);
+    // tempArray.push(oldTodo);
 
-    // Change the title
-    this.todo.title = newTitle;
-    newTodo = this.todo;
-    tempArray.push(newTodo);
+    // // Change the title
+    // this.todo.title = newTitle;
+    // newTodo = this.todo;
+    // tempArray.push(newTodo);
 
-    // Putting an array as a parameter as it could only accept 1
-    this.editTaskName.emit(tempArray);
+    // Change the TODO title to the NEW TITLE
+    todo.title = newTitle;
+    // Putting the update TODO into the emit function
+    this.editTaskName.emit(todo);
   }
 }

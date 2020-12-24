@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
-import { Todo, ITodo } from '../models/Todo';
+import { Todo } from '../models/Todo';
 
 const storageName = "todo_list";
 const defaultList : Todo[] = 
@@ -73,12 +73,24 @@ export class TodoListStorageService
     this.todoCollection.add(thisTodo);
   }
 
+  // Delete from the FIRESTORE database
   destroyTodoFromFire(thisTodo : Todo)
   {
     // Document Path: Collections > Documents
     this.todoDocument = this.store.doc("TodoCollection/" + thisTodo.id);
     this.todoDocument.delete();
   }
+
+  // Update this TODO in the FIRESTORE database
+  updateTodoInFire(thisTodo : Todo)
+  {
+    // Document Path: Collections > Documents
+    this.todoDocument = this.store.doc("TodoCollection/" + thisTodo.id);
+    this.todoDocument.update(thisTodo);
+  }
+
+
+
 
   /// FUNCTIONS to INTERACT with LOCAL STORAGE ///
   // Return the TODO List

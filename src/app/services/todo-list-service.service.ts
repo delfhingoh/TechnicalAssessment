@@ -31,6 +31,12 @@ export class TodoListServiceService
     return this.storage.destroyTodoFromFire(thisTodo);
   }
 
+  // Update this TODO in the FIRESTORE DATABASE
+  changeTodoInFire(thisTodo : Todo)
+  {
+    return this.storage.updateTodoInFire(thisTodo);
+  }
+
   /// FUNCTIONS to INTERACT with LOCAL STORAGE ///
   // Get the list using get function from the storage service
   getTodoList()
