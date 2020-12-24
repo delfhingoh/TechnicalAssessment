@@ -22,19 +22,19 @@ export class TodoListServiceService
   // Add the new TODO into the FIRESTORE DATABASE
   addTodoToFire(thisTodo : Todo)
   { 
-    return this.storage.postTodoToFire(thisTodo);
+    this.storage.postTodoToFire(thisTodo);
   }
 
   // Remove this TODO from the FIRESTORE DATABASE
   removeTodoFromFire(thisTodo : Todo)
   {
-    return this.storage.destroyTodoFromFire(thisTodo);
+    this.storage.destroyTodoFromFire(thisTodo);
   }
 
   // Update this TODO in the FIRESTORE DATABASE
   changeTodoInFire(thisTodo : Todo)
   {
-    return this.storage.updateTodoInFire(thisTodo);
+    this.storage.updateTodoInFire(thisTodo);
   }
 
   /// FUNCTIONS to INTERACT with LOCAL STORAGE ///

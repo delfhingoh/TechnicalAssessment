@@ -42,7 +42,7 @@ export class TodoListStorageService
   {
     // JSON.parse = Turning JSON into object
     // Putting the data into this Todo[] array.
-    this.todoList = JSON.parse(localStorage.getItem(storageName)) || defaultList;
+    // this.todoList = JSON.parse(localStorage.getItem(storageName)) || defaultList;
 
     // Putting the data from FIRESTORE of 'Todo' collection into an observable
     // Using snapshotChanges() to get the id of each document in this collection

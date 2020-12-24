@@ -11,7 +11,7 @@ import { Todo } from '../../models/Todo';
 // This is a component for the list that shows the tasks
 export class TodoListComponent implements OnInit 
 {
-  todoArray;
+  // todoArray;
   newTask : string = '';
   id : number = 0;
 
@@ -48,7 +48,7 @@ export class TodoListComponent implements OnInit
       tempTodo.orderNum = this.testTodoList.length;
 
       // Pass in the TODO variable
-      this.todoArray = this.todoListService.addTodoToFire(tempTodo);
+      this.todoListService.addTodoToFire(tempTodo);
       this.resetValue();
     }
     else
@@ -64,7 +64,7 @@ export class TodoListComponent implements OnInit
     // this.todoArray = this.todoListService.removeTask(todo);
 
     // Delete from FIRESTORE
-    this.todoArray = this.todoListService.removeTodoFromFire(todo);
+    this.todoListService.removeTodoFromFire(todo);
   }
 
   // This function will be triggered when the output is emitted from the todo-item component
@@ -76,7 +76,7 @@ export class TodoListComponent implements OnInit
     // tempArray[1] = newTodo
     // this.todoArray = this.todoListService.updateTaskName(tempArray[1], tempArray[0]);
 
-    this.todoArray = this.todoListService.changeTodoInFire(updatedTodo);
+    this.todoListService.changeTodoInFire(updatedTodo);
   }
 
   // Reset the input value function

@@ -7,6 +7,7 @@
     </app-todo-item>
     -->
 
+    <!-- Using testTodoList that's getting todo from FIRESTORE -->
     <app-todo-item *ngFor="let todo of testTodoList" [todo]="todo" (remove)="removeTask($event)" (editTaskName)="editTaskName($event)"></app-todo-item>
 
     <!-- Since there is only ONE add button, I decided not to make it a separate component -->
