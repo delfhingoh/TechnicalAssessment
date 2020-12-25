@@ -50,15 +50,4 @@ export class TodoEffects
             );
         }),
     ));
-
-    // addTodo$ = createEffect(() => this.actions$.pipe(
-    //     ofType(ADD_TODO),
-    //     switchMap((action) => 
-    //     {
-    //         return this.storageService.postTodoToFire(action.todo).pipe
-    //         (
-    //             map(() => LOAD_TODO()),
-    //         ); 
-    //     });
-    // ));
 }
