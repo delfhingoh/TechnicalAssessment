@@ -90,8 +90,6 @@ export class TodoListStorageService
   }
 
 
-
-
   /// FUNCTIONS to INTERACT with LOCAL STORAGE ///
   // Return the TODO List
   get()

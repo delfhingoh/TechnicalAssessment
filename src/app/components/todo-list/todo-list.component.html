@@ -1,20 +1,17 @@
-<!-- This is the part where it displays ALL the tasks saved in the LOCAL STORAGE-->
+<!-- Changing it to NgRx -->
+
 <div class="content">
+    <!-- Iterate and Render out ALL Todo Items in the LIST -->
+    <div *ngFor="let todo of todoList" [todo]="todo">
+        <!-- These are the following structure EACH TODO ITEM should have -->
+        <!-- When user edit the TODO title and press ENTER KEY, it will trigger the XX Function -->
+        <input class="task" type="text" [value]="todo.title" (keyup.enter)="edit.emit(todo)"/>
+        <!-- When user delete this TODO by clicking onto the Trash ICON, it will trigger the XX Function -->
+        <button class="delete" (click)="remove.emit(todo)"><fa-icon class="fa-trash" [icon]='faTrash'></fa-icon></button>
+    </div>
 
-    <!-- Iterate and display EACH task item -->
-    <!--
-    <app-todo-item *ngFor="let todo of todoArray" [todo]="todo" (remove)="removeTask($event)" (editTaskName)="editTaskName($event)">
-    </app-todo-item>
-    -->
-
-    <!-- Using testTodoList that's getting todo from FIRESTORE -->
-    <app-todo-item *ngFor="let todo of testTodoList" [todo]="todo" (remove)="removeTask($event)" (editTaskName)="editTaskName($event)"></app-todo-item>
-
-    <!-- Since there is only ONE add button, I decided not to make it a separate component -->
-    <!-- After the user types finish the task name, the changeValue() function will be triggered -->
-    <!-- The changeValue function will update the 'newTask' to the recently keyed name-->
-    <input id="input" placeholder="Task NAME" [value]="newTask" (keyup)="changeValue($event.target.value)"/>
-
-    <!-- When the user click onto this, the newly keyed name will already be updated -->
-    <button (click)="addTask(newTask)">Add</button>
+    <!-- This is the structure for user to interact and add a TODO item into the list -->
+    <input id="input" type="text" placeholder="Task NAME" [value]="newTodo" (keyup)="captureThisName($event.target.value)"/>
+    <!-- When user clicks onto the ADD button, it will trigger the XX Function -->
+    <button (click)="addThis(newTodo)" >Add</button>
 </div>

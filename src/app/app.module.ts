@@ -8,9 +8,7 @@ import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { TodoListComponent } from './components/todo-list/todo-list.component';
-import { TodoItemComponent } from './components/todo-item/todo-item.component';
 
-import { TodoListServiceService } from '../app/services/todo-list-service.service';
 import { TodoListStorageService } from '../app/services/todo-list-storage.service';
 
 // Import Angular Fire to use Firestore
@@ -20,22 +18,27 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 // Import NGRX
 import { StoreModule } from '@ngrx/store';
+import {todoReducer } from './components/todo.reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoListComponent,
-    TodoItemComponent
+    TodoListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    StoreModule
+
+    StoreModule.forRoot({ todoList : todoReducer }),
+
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
-  providers: [TodoListServiceService, TodoListStorageService],
+  providers: [TodoListStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
