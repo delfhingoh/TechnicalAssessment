@@ -20,17 +20,19 @@ export class TodoListComponent
 
   captureThisName(thisName) 
   { 
-    // Make sure that there's an input
-    if(thisName == "")
-      alert("Please key in some name.");
-    else
-      this.newTodo = thisName; 
+    this.newTodo = thisName; 
   }
 
   addThis(thisName)
   {
     this.add.emit(thisName);
     this.newTodo = "";    // Reset the input
+  }
+
+  editThis(thisTodo : Todo, thisName : string)
+  {
+    var tempArray = [thisTodo ,  thisName];
+    this.edit.emit(tempArray);
   }
 
   newTodo : string = "";

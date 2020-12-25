@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
-import { ADD_TODO, DELETE_TODO, EDIT_TODO } from './components/todo.actions';
+import { ADD_TODO,
+          DELETE_TODO,
+          EDIT_TODO,
+          LOAD_TODO
+        } from './components/todo.actions';
+
 import { TodoListStorageService } from './services/todo-list-storage.service';
 
 import { Todo } from './models/Todo';
 import { v4 as uuid } from 'uuid';
 import { AppState } from './app-state';
-import { Observable, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,10 +20,17 @@ import { Observable, pipe } from 'rxjs';
 })
 export class AppComponent 
 {
-  todoList$ : Observable<Todo[]>;
+  todoList$ = this.store.pipe(select(state => state.todoList));
+
+  constructor(private storageService : TodoListStorageService, private store : Store<AppState>) {}
+
+  ngOnInit()
+  {
+    this.store.dispatch(LOAD_TODO());
+  }
 
   // Adding the user inputted TODO into the LIST
-  onAdd(newTodo)
+  onAdd(newTodo : string)
   {  
     var currentSize = 0;
     this.todoList$.subscribe(temp => currentSize = temp.length);
@@ -28,24 +39,21 @@ export class AppComponent
     this.store.dispatch(ADD_TODO( { todo } ));
   }
 
-  onRemove(thisTodo)
+  // Remove the TODO chosen by user
+  onRemove(thisTodo : Todo)
   {
-    var todoID : string = "";
-    todoID = thisTodo.id;
+    var todo : Todo;
+    todo = thisTodo;
 
-    this.store.dispatch(DELETE_TODO( { todoID } ));
+    this.store.dispatch(DELETE_TODO( { todo } ));
   }
 
-  constructor(private storageService : TodoListStorageService, private store : Store<AppState>) {}
-
-  ngOnInit()
+  // Edit the TODO
+  onEdit(thisTodo : Todo)
   {
-    this.todoList$ = this.store.select(store => store.todoList);
-    console.log(this.todoList$.subscribe());
+    var todo : Todo = { orderNum: thisTodo[0].orderNum, id: thisTodo[0].id, title: thisTodo[1] };
+    console.log(todo);
 
-    //this.storageService.getTodoFromFire().subscribe(todoList => { this.todoList$ = todoList; } );
-
-      //   this.todoListService.getTodoListFromFire().subscribe(todoList => { this.testTodoList = todoList; } );
-
+    this.store.dispatch(EDIT_TODO( { todo } ));
   }
 }

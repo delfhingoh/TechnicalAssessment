@@ -71,6 +71,7 @@ export class TodoListStorageService
   {
     // Add it into the collection of 'TodoCollection' at FIRESTORE
     this.todoCollection.add(thisTodo);
+    return this.getTodoFromFire();
   }
 
   // Delete from the FIRESTORE database
@@ -79,6 +80,8 @@ export class TodoListStorageService
     // Document Path: Collections > Documents
     this.todoDocument = this.store.doc("TodoCollection/" + thisTodo.id);
     this.todoDocument.delete();
+
+    return this.getTodoFromFire();
   }
 
   // Update this TODO in the FIRESTORE database
@@ -87,63 +90,65 @@ export class TodoListStorageService
     // Document Path: Collections > Documents
     this.todoDocument = this.store.doc("TodoCollection/" + thisTodo.id);
     this.todoDocument.update(thisTodo);
+
+    return this.getTodoFromFire();
   }
 
 
   /// FUNCTIONS to INTERACT with LOCAL STORAGE ///
   // Return the TODO List
-  get()
-  {
-    // ... iterate through this list and return it
-    return [...this.todoList];
-  }
+  // get()
+  // {
+  //   // ... iterate through this list and return it
+  //   return [...this.todoList];
+  // }
 
-  // Add a new TODO into the List
-  post(taskName : string)
-  {
-    this.tempOrderNum = this.todoList.length;
+  // // Add a new TODO into the List
+  // post(taskName : string)
+  // {
+  //   this.tempOrderNum = this.todoList.length;
 
-    // Create a temporary TODO variable
-    var tempTodo : Todo = { orderNum: 0, id: "", title: ""};
-    // Store the added TODO item into this temp variable
-    tempTodo.orderNum = this.tempOrderNum;
-    tempTodo.title = taskName;
+  //   // Create a temporary TODO variable
+  //   var tempTodo : Todo = { orderNum: 0, id: "", title: ""};
+  //   // Store the added TODO item into this temp variable
+  //   tempTodo.orderNum = this.tempOrderNum;
+  //   tempTodo.title = taskName;
 
-    // Push the newly created TODO item into the array
-    this.todoList.push(tempTodo);
-    // Trigger the update() that will save this newly added array into localstorage
-    return this.update();
-  }
+  //   // Push the newly created TODO item into the array
+  //   this.todoList.push(tempTodo);
+  //   // Trigger the update() that will save this newly added array into localstorage
+  //   return this.update();
+  // }
 
-  // Update a TODO item in the list
-  put(todo : Todo, newTodo : Todo)
-  {
-    Object.assign(this.todoList[this.findTodoIndex(todo)], newTodo);
-    return this.update();
-  }
+  // // Update a TODO item in the list
+  // put(todo : Todo, newTodo : Todo)
+  // {
+  //   Object.assign(this.todoList[this.findTodoIndex(todo)], newTodo);
+  //   return this.update();
+  // }
 
-  // Remove this TODO item from the list
-  destroy(todo : Todo)
-  {
-    // Remove this TODO from that index using splice and update or change the array
-    this.todoList.splice(this.findTodoIndex(todo), 1);
-    return this.update();
-  }
+  // // Remove this TODO item from the list
+  // destroy(todo : Todo)
+  // {
+  //   // Remove this TODO from that index using splice and update or change the array
+  //   this.todoList.splice(this.findTodoIndex(todo), 1);
+  //   return this.update();
+  // }
 
-  // This is to update the localstorage data
-  private update()
-  {
-    localStorage.setItem(storageName, JSON.stringify(this.todoList));
-    return this.get();
-  }
+  // // This is to update the localstorage data
+  // private update()
+  // {
+  //   localStorage.setItem(storageName, JSON.stringify(this.todoList));
+  //   return this.get();
+  // }
 
-  // Find an index of a TODO item from the list
-  private findTodoIndex(todo : Todo) : number
-  {
-    // Iterate through this todoList and find the matching ID task.
-    // Assign the matching task index into the variable
-    // Return the found index of this todo
-    this.todoList.forEach((temp, index) => { if(temp.id == todo.id) this.index = index; } );
-    return this.index;
-  }
+  // // Find an index of a TODO item from the list
+  // private findTodoIndex(todo : Todo) : number
+  // {
+  //   // Iterate through this todoList and find the matching ID task.
+  //   // Assign the matching task index into the variable
+  //   // Return the found index of this todo
+  //   this.todoList.forEach((temp, index) => { if(temp.id == todo.id) this.index = index; } );
+  //   return this.index;
+  // }
 }

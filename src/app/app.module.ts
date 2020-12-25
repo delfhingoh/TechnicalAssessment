@@ -6,9 +6,7 @@ import { AppComponent } from './app.component';
 
 // Importing the ICONS from FontAwesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 import { TodoListComponent } from './components/todo-list/todo-list.component';
-
 import { TodoListStorageService } from '../app/services/todo-list-storage.service';
 
 // Import Angular Fire to use Firestore
@@ -18,7 +16,11 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 // Import NGRX
 import { StoreModule } from '@ngrx/store';
-import {todoReducer } from './components/todo.reducers';
+import { EffectsModule } from '@ngrx/effects';
+
+import { TodoEffects } from './components/todo.effects';
+import { todoReducer } from './components/todo.reducers';
+
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
@@ -35,8 +37,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AngularFirestoreModule,
 
     StoreModule.forRoot({ todoList : todoReducer }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
 
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    EffectsModule.forRoot([ TodoEffects ]),
   ],
   providers: [TodoListStorageService],
   bootstrap: [AppComponent]

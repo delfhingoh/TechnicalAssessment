@@ -5,7 +5,7 @@
     <div *ngFor="let todo of todoList" [todo]="todo">
         <!-- These are the following structure EACH TODO ITEM should have -->
         <!-- When user edit the TODO title and press ENTER KEY, it will trigger the XX Function -->
-        <input class="task" type="text" [value]="todo.title" (keyup.enter)="edit.emit(todo)"/>
+        <input class="task" type="text" [value]="todo.title" (keyup.enter)="editThis(todo, $event.target.value)"/>
         <!-- When user delete this TODO by clicking onto the Trash ICON, it will trigger the XX Function -->
         <button class="delete" (click)="remove.emit(todo)"><fa-icon class="fa-trash" [icon]='faTrash'></fa-icon></button>
     </div>
